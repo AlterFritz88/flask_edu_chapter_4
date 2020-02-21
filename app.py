@@ -1,9 +1,47 @@
 import json
 import random
 from flask import Flask, render_template, request
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, ForeignKey, Integer, String, Float
+from sqlalchemy.orm import relationship
+
 from data import goals, weekdays
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+db = SQLAlchemy(app)
+
+
+class Teacher(db.Model):
+    __tablename__ = 'teachers'
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+    about = Column(String, nullable=False)
+    rating = Column(Float, nullable=False)
+    picture = Column(String, nullable=False)
+    #price = Column(Integer, nullable=False)
+    #goals = Column(String, nullable=False)
+    #free = Column(String, nullable=False)
+    booking = relationship("Booking", back_populates="teacher")
+
+
+class Booking(db.Model):
+    __tablename__ = 'bookings'
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+    phone = Column(String, nullable=False)
+    teacher_id = Column(Integer, ForeignKey("teachers.id"))
+    teacher = relationship("Teacher", back_populates="booking")
+
+
+class Request(db.Model):
+    __tablename__ = 'requests'
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+    phone = Column(String, nullable=False)
+    goal = Column(String, nullable=False)
+    time = Column(String, nullable=False)
+
 
 with open("teachers.json", 'r') as f:
     teachers = json.load(f)
