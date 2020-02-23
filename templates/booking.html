@@ -18,13 +18,13 @@
                   <input class="form-control" type="hidden" name="clientTeacher" value="{{teacher.id}}">
               </div>
 
-            <label class="mb-1 mt-2" for="clientName">Вас зовут</label>
-            <input class="form-control" type="text" name="clientName" id="clientName">
+            {{ form.name.label(class_="mb-1 mt-2") }}
+            {{ form.name(class_="form-control") }}
 
-            <label class="mb-1 mt-2" for="clientPhone">Ваш телефон</label>
-            <input class="form-control" type="tel"  name="clientPhone" id="clientPhone">
+            {{ form.phone.label(class_="mb-1 mt-2") }}
+            {{ form.phone(class_="form-control") }}
 
-            <input type="submit" class="btn btn-primary btn-block mt-4" value="Записаться на пробный урок">
+            {{ form.submit(class_="btn btn-primary btn-block mt-4") }}
 
           </div>
         </form>
